@@ -5,13 +5,16 @@ const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 const bodyParser = require('body-parser')
 const cors = require('cors');
-const res = require('express/lib/response');
+// const res = require('express/lib/response');
 app.use(cors())
 const mongourl="mongodb://localhost:27017";
 let db;
 let col_name="dashboard"
 let col_name1="dashboard1"
 let col_name2="dashboard2"
+let col_name3="dashboard3"
+let col_name4="dashboard4"
+let col_name5="dashboard5"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -96,6 +99,75 @@ app.post('/addbooking',(req,res)=>{
     })
 })
 
+//Read
+app.get('/servicedetails',(req,res)=>{
+    db.collection(col_name3).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Insert
+app.post('/addservicedetails',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name3).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+    })
+
+})
+
+app.get('/servicedetails/:service',(req,res)=>{
+    
+    var service =(req.params.service)
+    db.collection(col_name3).find({service:service}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+
+})
+app.get('/servicedetails/:id',(req,res)=>{
+    var id = (req.params.id)
+    db.collection(col_name3).find({_id:id}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Read
+app.get('/placeBooking',(req,res)=>{
+    db.collection(col_name4).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+    
+    })
+    //Insert
+    app.post('/addplaceBooking',(req,res)=>{
+        console.log(req.body)
+        db.collection(col_name4).insert(req.body,(err,result) => {
+            if(err) throw err;
+            res.send('Data Added')
+        })
+    })
+
+    //Read
+app.get('/patientType',(req,res)=>{
+    db.collection(col_name5).find().toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+//Insert
+app.post('/addpatientType',(req,res)=>{
+    console.log(req.body)
+    db.collection(col_name5).insert(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send('Data Added')
+
+    })
+})
 
 //Db Connection
 MongoClient.connect(mongourl,(err,client)=>{

@@ -15,6 +15,7 @@ let col_name2="dashboard2"
 let col_name3="dashboard3"
 let col_name4="dashboard4"
 let col_name5="dashboard5"
+let col_name6="dashboard6"
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
@@ -152,22 +153,48 @@ app.get('/placeBooking',(req,res)=>{
     })
 
     //Read
-app.get('/patientType',(req,res)=>{
-    db.collection(col_name5).find().toArray((err,result)=>{
+// app.get('/patientType',(req,res)=>{
+//     db.collection(col_name5).find().toArray((err,result)=>{
+//         if(err) throw err;
+//         res.send(result)
+//     })
+// })
+
+// //Insert
+// app.post('/addpatientType',(req,res)=>{
+//     console.log(req.body)
+//     db.collection(col_name5).insert(req.body,(err,result)=>{
+//         if(err) throw err;
+//         res.send('Data Added')
+
+//     })
+// })
+   //Read
+//    app.get('/whatsappmessage',(req,res)=>{
+//     db.collection(col_name6).find().toArray((err,result)=>{
+//         if(err) throw err;
+//         res.send(result)
+//     })
+// })
+
+// //Insert
+// app.post('/addwhatsappmessage',(req,res)=>{
+//     console.log(req.body)
+//     db.collection(col_name6).insert(req.body,(err,result)=>{
+//         if(err) throw err;
+//         res.send('Data Added')
+
+//     })
+// })
+app.get('/placeBooking/:id',(req,res) => {
+    var id=mongo.ObjectId(req.params.id)
+    db.collection(col_name4).find({_id:id}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
+
 })
 
-//Insert
-app.post('/addpatientType',(req,res)=>{
-    console.log(req.body)
-    db.collection(col_name5).insert(req.body,(err,result)=>{
-        if(err) throw err;
-        res.send('Data Added')
-
-    })
-})
 
 //Db Connection
 MongoClient.connect(mongourl,(err,client)=>{
